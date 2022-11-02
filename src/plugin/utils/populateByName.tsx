@@ -9,9 +9,13 @@ export default function populateByName(selectedLayers, JSONobj, selectedItem) {
                 if (item.name.toUpperCase() === selectedItem.toUpperCase() && item.type === 'TEXT') {
                     figma.loadFontAsync(item.fontName).then(() => {
                         if (typeof JSONobj[newItem] !== 'undefined') {
-                            item.characters = JSONobj[newItem]?.[selectedItem].toString();
+                             if (typeof item.type ===  "boolean") {
+                                item.visible = JSONobj[newItem]?.[selectedItem];
+                            } else {
+                                item.characters = JSONobj[newItem]?.[selectedItem].toString();
+                            }
                             newItem = ++newItem;
-                        }
+                        } 
                     });
                 }
 
@@ -25,6 +29,7 @@ export default function populateByName(selectedLayers, JSONobj, selectedItem) {
                         newItem = ++newItem;
                     }
                 }
+                
 
                 if (item.children) {
                     loopSelected(item.children);
